@@ -36,6 +36,7 @@ public class Program {
 
         String[] paths = folder.list();
         for(String s : paths) {
+            System.out.println("Finner: " + s);
             Song song = new Song(s);
             ret.add(song);
         }
