@@ -22,8 +22,7 @@ public class Playlist {
     public boolean delete(Song s) {
         for(int i = 0; i <  list.size(); i++) {
             if (list.get(i) == s) {
-                list.remove(i);
-                return true;
+                return this.delete(i);
             }
         }
         return  false;
@@ -35,5 +34,19 @@ public class Playlist {
             return true;
         }
         return false;
+    }
+
+    public void randomizeOrder() {
+        ArrayList<Song> random = new ArrayList<Song>();
+        ArrayList<Song> bak = new ArrayList<Song>(list);
+
+        while(bak.size() != 0) {
+            int rand = (int) Math.floor(Math.random() * bak.size());
+
+            random.add(bak.get(rand));
+            bak.remove(rand);
+        }
+        
+        list = random;
     }
 }

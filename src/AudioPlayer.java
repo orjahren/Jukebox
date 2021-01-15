@@ -14,10 +14,12 @@ public class AudioPlayer {
       
     String status; 
 
+    AudioInputStream as;
+
     AudioPlayer(Song song) {
         File file = song.getFile();
         try {
-            AudioInputStream as = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
+            as = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
 
             clip = AudioSystem.getClip();
 
@@ -32,15 +34,23 @@ public class AudioPlayer {
         
     }
 
+    public void stop() {
+        clip.stop();
+            try {
+                as.close();
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+    }
+
     public void play() {
+        if(status == "playing") {
+            
+            
+        }
         clip.start();
 
         status = "playing";
-        try {
-            
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
         
     }
 }

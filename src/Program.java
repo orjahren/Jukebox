@@ -12,9 +12,10 @@ public class Program {
 
     static AudioPlayer ap;
 
+    static boolean playing = false;
+
     public static void main(String[] args) {
         System.out.println("Jukas v0.02");
-
         File conf = handleConfig();
 
         songs = detectSongs();
@@ -54,8 +55,16 @@ public class Program {
     }
 
     private static void playSong(Song song) {
+        if(playing) {
+            ap.stop();
+            playing = false;
+        }
+        
         ap = new AudioPlayer(song);
         ap.play();
+        playing = true;
+        
+        
     }
 
     private static boolean handleMenuLoop(Scanner scanner) {
