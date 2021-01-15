@@ -18,6 +18,14 @@ public class Program {
         System.out.println("Jukas v0.02");
         File conf = handleConfig();
 
+        //if config.convertAll()
+        try {
+            Runtime.getRuntime().exec(("python convertFilesToWaw.py"));
+        }catch(Exception e) {
+            
+        }
+        
+
         songs = detectSongs();
 
         Scanner scanner = new Scanner(System.in);
@@ -59,7 +67,7 @@ public class Program {
             ap.stop();
             playing = false;
         }
-        
+
         ap = new AudioPlayer(song);
         ap.play();
         playing = true;
