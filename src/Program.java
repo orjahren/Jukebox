@@ -19,11 +19,7 @@ public class Program {
         File conf = handleConfig();
 
         //if config.convertAll()
-        try {
-            Runtime.getRuntime().exec(("python convertFilesToWaw.py"));
-        }catch(Exception e) {
-
-        }
+        convertAllTracks();
         
 
         songs = detectSongs();
@@ -75,16 +71,21 @@ public class Program {
         
     }
 
+    private static int getIntInput(Scanner scanner) {
+        return Integer.parseInt(scanner.nextLine());
+    }
+
     private static boolean handleMenuLoop(Scanner scanner) {
         printMenuLoop();
-        int inp = scanner.nextInt();
+        int inp = getIntInput(scanner);
     
         switch(inp) {
             case 0:
                 //list all songs
                 printAllSongs();
                 //select song
-                inp = scanner.nextInt();
+                inp = getIntInput(scanner);
+
                 playSong(songs.get(inp));
                 System.out.println("Spiller av " + songs.get(inp));
                 break;
@@ -97,6 +98,9 @@ public class Program {
                 }
                 break;
             case 2:
+                downloadNew(scanner);
+                break;
+            case 3:
                 return true;
             default:
                 System.out.println("Your command was not recognized");
@@ -121,8 +125,34 @@ public class Program {
         return null;
     }
 
+    private static void convertAllTracks() {
+        try {
+            Runtime.getRuntime().exec("python convertFilesToWaw.py");
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void updateSongs() {
+        songs = detectSongs();
+    }
+
+    private static void downloadNew(Scanner scanner) {
+        System.out.print("\tLink to youtube download: $");
+        String link = scanner.nextLine();
+        System.out.println(link);
+        try {
+            Runtime.getRuntime().exec(("python downloadFromYoutube.py " + link));
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        convertAllTracks();
+        updateSongs();
+    }
+
     private static void printMenuLoop() {
-        System.out.println("[0] Select song \n[1] Play/Pause \n[2] Quit");
+        System.out.println("[0] Select song \n[1] Play/Pause \n[2] Download new video or playlist \n[3] Quit");
     }
 
     private static void loadConfig() {
