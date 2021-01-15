@@ -34,6 +34,17 @@ public class AudioPlayer {
         
     }
 
+    public void pause() {
+        if(status == "playing") {
+            status = "paused";
+            clip.stop();
+        }else {
+            status = "playing";
+            clip.start();
+        }
+        
+    }
+
     public void stop() {
         clip.stop();
             try {

@@ -22,7 +22,7 @@ public class Program {
         try {
             Runtime.getRuntime().exec(("python convertFilesToWaw.py"));
         }catch(Exception e) {
-            
+
         }
         
 
@@ -90,6 +90,11 @@ public class Program {
                 break;
             case 1:
                 //toggle play/pause
+                try {
+                    ap.pause();
+                }catch(NullPointerException e) {
+                    System.out.println("You must start a song first");
+                }
                 break;
             case 2:
                 return true;
