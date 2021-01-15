@@ -46,3 +46,6 @@ hs_err_pid*
 *.webm
 
 # End of https://www.toptal.com/developers/gitignore/api/java,video
+*.mp3
+*.waw
+*.m4a
