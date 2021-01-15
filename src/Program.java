@@ -9,8 +9,11 @@ public class Program {
 
     static ArrayList<Playlist> playlists;
     static ArrayList<Song> songs;
+
+    static AudioPlayer ap;
+
     public static void main(String[] args) {
-        System.out.println("Jukas v0.01");
+        System.out.println("Jukas v0.02");
 
         File conf = handleConfig();
 
@@ -51,8 +54,8 @@ public class Program {
     }
 
     private static void playSong(Song song) {
-        AudioPlayer ap = new AudioPlayer();
-        ap.play(song);
+        ap = new AudioPlayer(song);
+        ap.play();
     }
 
     private static boolean handleMenuLoop(Scanner scanner) {

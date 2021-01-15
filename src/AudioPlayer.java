@@ -1,20 +1,43 @@
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream; 
+import javax.sound.sampled.AudioSystem; 
+import javax.sound.sampled.Clip; 
+import javax.sound.sampled.LineUnavailableException; 
+import javax.sound.sampled.UnsupportedAudioFileException; 
 
+//based off of https://www.geeksforgeeks.org/play-audio-file-using-java/
 public class AudioPlayer {
-    Runtime rt;
-    Process pr;
+    
+    Long currentFrame; 
+    Clip clip; 
+      
+    String status; 
 
-    AudioPlayer() {
-        rt = Runtime.getRuntime();
+    AudioPlayer(Song song) {
+        File file = song.getFile();
+        try {
+            AudioInputStream as = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
+
+            clip = AudioSystem.getClip();
+
+            clip.open(as);
+        }catch(Exception e) {
+            System.err.println("Fatal error in AudioPlayer");
+            e.printStackTrace();
+            
+        }
+        
+
+        
     }
 
-    public void play(Song song) {
+    public void play() {
+        clip.start();
+
+        status = "playing";
         try {
-            pr = rt.exec("mplayer " + song.filePath);
-            pr.getOutputStream();
-            System.out.println("Sang skal være spilende");
             
-            pr.waitFor();
         }catch(Exception e) {
             e.printStackTrace();
         }
