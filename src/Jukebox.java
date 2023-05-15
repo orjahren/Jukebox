@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 
 import java.util.Scanner;
 //demolink https://www.youtube.com/playlist?list=PLokwSdaX9hWIJHPu8P7dhCM7uPWMb5O7q
-public class Program {
+public class Jukebox {
 
     static ArrayList<Playlist> playlists;
     static ArrayList<Song> songs;

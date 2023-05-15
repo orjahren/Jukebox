@@ -10,4 +10,4 @@ It supports only basic operations like play/pause.
 
 ## Usage
 1. Compile -> `javac *java`
-1. Run -> `java Program`
+1. Run -> `java Jukebox`
