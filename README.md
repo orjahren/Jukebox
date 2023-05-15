@@ -1,6 +1,13 @@
 # Jukebox
 Headless jukebox music off of YouTube, Spotify etc.
 
-Feel free to contribute(very appreciated)
 
-Requirements: Java, python3, mpg123, youtube-dl
+## Requirements
+- Java
+- python3
+- mpg123
+- youtube-dl
+
+## Usage
+1. Compile -> `javac *java`
+1. Run -> `java Program`
