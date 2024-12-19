@@ -90,7 +90,7 @@ public class Jukebox {
             case 1:
                 // toggle play/pause
                 try {
-                    ap.pause();
+                    ap.togglePlay();
                 } catch (NullPointerException e) {
                     System.out.println("You must start a song first");
                 }

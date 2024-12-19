@@ -10,12 +10,12 @@ public class AudioPlayer {
     Long currentFrame;
     Clip clip;
 
-    String status;
+    boolean isPaused;
 
     AudioInputStream as;
 
     AudioPlayer(Song song) {
-        File file = song.getFile();
+        final File file = song.getFile();
         try {
             as = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
 
@@ -25,20 +25,16 @@ public class AudioPlayer {
         } catch (Exception e) {
             System.err.println("Fatal error in AudioPlayer");
             e.printStackTrace();
-
         }
-
     }
 
-    public void pause() {
-        if (status == "playing") {
-            status = "paused";
-            clip.stop();
-        } else {
-            status = "playing";
+    public void togglePlay() {
+        if (isPaused)
             clip.start();
-        }
+        else
+            clip.stop();
 
+        isPaused = !isPaused;
     }
 
     public void stop() {
@@ -51,12 +47,14 @@ public class AudioPlayer {
     }
 
     public void play() {
-        if (status == "playing") {
-
+        if (isPaused) {
+            clip.start();
+            isPaused = false;
+        } else {
+            clip.stop();
+            clip.setFramePosition(0);
+            clip.start();
+            isPaused = false;
         }
-        clip.start();
-
-        status = "playing";
-
     }
 }
