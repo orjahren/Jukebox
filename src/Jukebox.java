@@ -1,9 +1,7 @@
-import java.util.ArrayList;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-
+import java.util.ArrayList;
 import java.util.Scanner;
+
 //demolink https://www.youtube.com/playlist?list=PLokwSdaX9hWIJHPu8P7dhCM7uPWMb5O7q
 public class Jukebox {
 
@@ -18,16 +16,15 @@ public class Jukebox {
         System.out.println("Jukas v0.02");
         File conf = handleConfig();
 
-        //if config.convertAll()
+        // if config.convertAll()
         convertAllTracks();
-        
 
         songs = detectSongs();
 
         Scanner scanner = new Scanner(System.in);
 
         boolean ferdig = false;
-        while(!ferdig) {
+        while (!ferdig) {
             ferdig = handleMenuLoop(scanner);
         }
     }
@@ -37,13 +34,13 @@ public class Jukebox {
         File folder;
         try {
             folder = new File("../tracks");
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Your system has not been set up correctly, exiting");
             throw new IllegalStateException();
         }
 
         String[] paths = folder.list();
-        for(String s : paths) {
+        for (String s : paths) {
             System.out.println("Finner: " + s);
             Song song = new Song(s);
             ret.add(song);
@@ -52,14 +49,14 @@ public class Jukebox {
     }
 
     private static void printAllSongs() {
-        for(int i = 0; i < songs.size(); i++) {
+        for (int i = 0; i < songs.size(); i++) {
             Song s = songs.get(i);
             System.out.println("[" + i + "] " + s.filePath);
         }
     }
 
     private static void playSong(Song song) {
-        if(playing) {
+        if (playing) {
             ap.stop();
             playing = false;
         }
@@ -67,8 +64,7 @@ public class Jukebox {
         ap = new AudioPlayer(song);
         ap.play();
         playing = true;
-        
-        
+
     }
 
     private static int getIntInput(Scanner scanner) {
@@ -78,22 +74,22 @@ public class Jukebox {
     private static boolean handleMenuLoop(Scanner scanner) {
         printMenuLoop();
         int inp = getIntInput(scanner);
-    
-        switch(inp) {
+
+        switch (inp) {
             case 0:
-                //list all songs
+                // list all songs
                 printAllSongs();
-                //select song
+                // select song
                 inp = getIntInput(scanner);
 
                 playSong(songs.get(inp));
                 System.out.println("Spiller av " + songs.get(inp));
                 break;
             case 1:
-                //toggle play/pause
+                // toggle play/pause
                 try {
                     ap.pause();
-                }catch(NullPointerException e) {
+                } catch (NullPointerException e) {
                     System.out.println("You must start a song first");
                 }
                 break;
@@ -104,22 +100,23 @@ public class Jukebox {
                 return true;
             default:
                 System.out.println("Your command was not recognized");
-        }   return false;
+        }
+        return false;
     }
 
     private static File handleConfig() {
         try {
             File conf = new File("../config.ini");
 
-            if(conf.createNewFile()) {
+            if (conf.createNewFile()) {
                 initConfig(conf);
-            }else {
+            } else {
                 loadConfig();
             }
 
             return conf;
-        }catch(Exception e) {
-            //no config for you
+        } catch (Exception e) {
+            // no config for you
             e.printStackTrace();
         }
         return null;
@@ -128,7 +125,7 @@ public class Jukebox {
     private static void convertAllTracks() {
         try {
             Runtime.getRuntime().exec("python convertFilesToWaw.py");
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -143,10 +140,10 @@ public class Jukebox {
         System.out.println(link);
         try {
             Runtime.getRuntime().exec(("python downloadFromYoutube.py " + link));
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         convertAllTracks();
         updateSongs();
     }
