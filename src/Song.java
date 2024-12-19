@@ -8,7 +8,7 @@ public class Song {
     File file;
 
     Song(String relPath) {
-        file = new File("../tracks/" + relPath);
+        file = new File(Jukebox.TRACKS_PATH + "/" + relPath);
         filePath = relPath;
     }
 

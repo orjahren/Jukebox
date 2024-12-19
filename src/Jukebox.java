@@ -12,6 +12,8 @@ public class Jukebox {
 
     static boolean playing = false;
 
+    public static final String TRACKS_PATH = "../tracks";
+
     public static void main(String[] args) {
         System.out.println("Jukas v0.02");
         File conf = handleConfig();
@@ -33,7 +35,7 @@ public class Jukebox {
         ArrayList<Song> ret = new ArrayList<Song>();
         File folder;
         try {
-            folder = new File("../tracks");
+            folder = new File(TRACKS_PATH);
         } catch (Exception e) {
             System.out.println("Your system has not been set up correctly, exiting");
             throw new IllegalStateException();
@@ -104,6 +106,7 @@ public class Jukebox {
         return false;
     }
 
+    // TODO Implement config system.
     private static File handleConfig() {
         try {
             File conf = new File("../config.ini");
