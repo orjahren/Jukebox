@@ -15,7 +15,6 @@ public class Jukebox {
     public static final String TRACKS_PATH = "../tracks";
 
     public static void main(String[] args) {
-        System.out.println("Jukas v0.02");
         File conf = handleConfig();
 
         // if config.convertAll()
@@ -25,10 +24,49 @@ public class Jukebox {
 
         Scanner scanner = new Scanner(System.in);
 
-        boolean ferdig = false;
-        while (!ferdig) {
-            ferdig = handleMenuLoop(scanner);
+        do {
+            System.out.println("Jukas v0.03");
+        } while (handleMenuLoop(scanner));
+
+        System.out.println("Goodbye :)");
+    }
+
+    private static boolean handleMenuLoop(Scanner scanner) {
+
+        // TODO: Implement type safety between command list and switch stmt.
+        final String[] commands = { "Select song", "Play/Pause", "Download new video or playlist", "Quit" };
+        for (int i = 0; i < commands.length; i++) {
+            System.out.println("\t[" + i + "] " + commands[i]);
         }
+
+        final int command = getIntInput(scanner);
+
+        switch (command) {
+            case 0:
+                // list all songs
+                printAllSongs();
+                // select song
+                final int songIdx = getIntInput(scanner);
+
+                playSong(songs.get(songIdx));
+                System.out.println("Spiller av " + songs.get(songIdx));
+                break;
+            case 1:
+                // toggle play/pause
+                try {
+                    ap.togglePlay();
+                } catch (NullPointerException e) {
+                    System.out.println("You must start a song first");
+                }
+                break;
+            case 2:
+                downloadNew(scanner);
+            case 3:
+                return false;
+            default:
+                System.out.println("Your command was not recognized");
+        }
+        return true;
     }
 
     private static ArrayList<Song> detectSongs() {
@@ -53,7 +91,7 @@ public class Jukebox {
     private static void printAllSongs() {
         for (int i = 0; i < songs.size(); i++) {
             Song s = songs.get(i);
-            System.out.println("[" + i + "] " + s.filePath);
+            System.out.println("\t[" + i + "] " + s.filePath);
         }
     }
 
@@ -71,39 +109,6 @@ public class Jukebox {
 
     private static int getIntInput(Scanner scanner) {
         return Integer.parseInt(scanner.nextLine());
-    }
-
-    private static boolean handleMenuLoop(Scanner scanner) {
-        printMenuLoop();
-        int inp = getIntInput(scanner);
-
-        switch (inp) {
-            case 0:
-                // list all songs
-                printAllSongs();
-                // select song
-                inp = getIntInput(scanner);
-
-                playSong(songs.get(inp));
-                System.out.println("Spiller av " + songs.get(inp));
-                break;
-            case 1:
-                // toggle play/pause
-                try {
-                    ap.togglePlay();
-                } catch (NullPointerException e) {
-                    System.out.println("You must start a song first");
-                }
-                break;
-            case 2:
-                downloadNew(scanner);
-                break;
-            case 3:
-                return true;
-            default:
-                System.out.println("Your command was not recognized");
-        }
-        return false;
     }
 
     // TODO Implement config system.
@@ -149,10 +154,6 @@ public class Jukebox {
 
         convertAllTracks();
         updateSongs();
-    }
-
-    private static void printMenuLoop() {
-        System.out.println("[0] Select song \n[1] Play/Pause \n[2] Download new video or playlist \n[3] Quit");
     }
 
     private static void loadConfig() {
